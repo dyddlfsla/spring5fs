@@ -54,7 +54,39 @@ public class MemberRegisterService {
  *
  *
  *
+ * 2. DI 를 통한 의존 처리
  *
+ * DI(Dependency Injection, 의존 주입) 은 의존하는 객체를 직접 생성하는 대신 의존 객체를 전달받는 방식을 사용한다. 예를 들어 앞서 의존 객체를 직접 생성한
+ * MemberRegisterService 클래스에 대한 DI 방식을 적용하면 다음처럼 할 수 있다.
+ *
+ * public class MemberRegisterService{
+ *
+ *  private MemberDao memberDao;
+ *
+ *  public MemberRegisterService(MemberDao memberDao) {
+ *    this.memberDao = memberDao;
+ *  }
+ *
+ *  ...
+ *
+ * }
+ *
+ * 직접 의존 객체를 생성했던 코드와 달리 바뀐 코드는 의존 객체를 직접 생성하지 않는다. 대신 생성자를 통해서
+ * 의존 객체를 전달 받는다. 즉, 생성자를 통해 MemberRegisterService 클래스가 의존(Dependency)하고 있는
+ * MemberDao 객체를 주입(injection) 받은 것이다. 의존 객체를 직접 구하지 않고 생성자를 통해서 전달받기 때문에
+ * 이 코드는 DI (의존 주입) 패턴을 따르고 있다.
+ *
+ * DI 를 적용한 결과 MemberRegisterService 클래스를 사용하는 코드는 다음과 같이 MemberRegisterService 객체를 생성할 때
+ * 생성자에 MemberDao 객체를 전달해야 한다.
+ *
+ * MemberDao memberDao = new MemberDao();
+ * MemberRegisterService mrs = new MemberRegisterService(memberDao);
+ * //의존 객체를 생성자를 통해 전달 받는다.
+ *
+ * 언뜻 보았을 때는 뭔가 더 복잡해 보인다. 앞서 의존 객체를 직접 생성하는 방식과 달리 의존 객체를 주입하는 방식은 객체를 생성하는 부분의
+ * 코드가 조금 더 길어졌다. 그냥 직접 의존 객체를 생성하면 되는데 왜 굳이 생성자를 통해 의존하는 객체를 주입하는걸까?
+ * 이 이유를 이해하기 위해서는 객체 지향 설계에 대한 기본적인 이해가 필요한데, 이제 막 개발에 입문한 개발자에겐 다소 어려운 개념이 될 수 있다.
+ * 간단히 이유를 말하면 그것은 바로 '변경의 유연함' 때문이다.
  *
  *
  * */
