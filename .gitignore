@@ -1,0 +1,4 @@
+.idea/
+# Project exclude paths
+/.gradle/
+/sp5-chap02/target/
