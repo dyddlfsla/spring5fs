@@ -89,4 +89,35 @@ public class MemberRegisterService {
  * 간단히 이유를 말하면 그것은 바로 '변경의 유연함' 때문이다.
  *
  *
+ * 3. DI 와 의존 객체 변경의 유연함
+ *
+ * 의존 객체를 직접 생성하는 방식은 필드나 생성자에서 new 연산자를 이용해서 객체를 생성한다. 회원 등록 기능을 제공하는 MemberRegisterService 클래스에서
+ * 다음 코드처럼 의존 객체를 직접 생성할 수 있다.
+ *
+ * public class MemberRegisterService {
+ *  private MemberDao memberDao = new MemberDao();
+ * }
+ *
+ * 회원 암호 변경 기능을 제공하는 ChangePasswordService 클래스도 다음과 같이 의존 객체를 직접 생성한다고 하자.
+ *
+ * public class ChangePasswordService {
+ *   private MemberDao memberDao = new MemberDao();
+ * }
+ *
+ * MemberDao 클래스는 회원 데이터를 데이터베이스에 저장한다고 가정해보자. 이 상태에서 회원 데이터의 빠른 조회를 위해 캐시를 적용해야 하는 상황이 발생했다.
+ * 그래서 MemberDao 클래스를 상속받은 CachedMemberDao 클래스를 만들었다.
+ *
+ * public class CachedMemberDao extends MemberDao {
+ *   ...
+ * }
+ *
+ * 캐시 기능을 적용한 CachedMemberDao 를 사용하려면 MemberRegisterService 클래스와 ChangePasswordService 클래스의 코드를 다음과 같이 변경해주어야 한다.
+ *
+ *  private MemberDao memberDao = new MemberDao(); → private MemberDao memberDao = new CachedMemberDao();
+ *
+ * 만약 MemberDao 객체가 필요한 클래스가 세 개라면 세 클래스 모두 동일하게 소스 코드를 변경해야 한다.
+ *
+ * 동일한 상황이에서 DI 를 사용하면 수정할 코드가 줄어든다. 다음과 같이 직접 객체 생성이 아니라 생성자를 통해 의존 객체를 주입받는다고 한다면
+ *
+ *
  * */
